@@ -1,0 +1,27 @@
+GET http://localhost:5000/users
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOiJ0b2JpIiwiZW1haWwiOiJ0b2JpQHRlc3QuaWQiLCJpYXQiOjE2NzIxMzUwMjEsImV4cCI6MTY3MjEzNTAzNn0.0UFdINf53tCmDleENwCIM75p_zVzMblzsoisLiiqT5M
+###
+
+POST http://localhost:5000/register
+Content-Type: application/json
+{
+    "name": "Muhammad tobi",
+    "email": "tobi@test.com",
+    "password": "12345",
+    "confirmPassword": "12345"
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "tobi@test.id",
+    "password": "12345678"
+}
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout
