@@ -1,33 +1,31 @@
-import express  from "express"
-import cookieParser from "cookie-parser"
-import authRoute from "./routes/authRoutes.js"
-import db from "./config/Database.js"
+import express from "express";
+import cookieParser from "cookie-parser";
+import authRoute from "./routes/authRoutes.js";
+import db from "./config/Database.js";
 import User from "./models/UserModel.js";
-import cors from "cors"
-import dotenv from "dotenv"
-dotenv.config()
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
 
-//mengambil value dari cookie
-// cookie parser harus diatas
-app.use(cookieParser())
-//domain yg diizinkan utk akses api
+app.use(cookieParser()); // Middleware untuk mengambil value dari cookie
+
 app.use(cors({
-   credentials: true,
-   origin: 'http://localhost/3000'
-}))
-// agar  bisa menerima data dalam bentuk JSON
-app.use(express.json())
-//middleware route
-app.use(authRoute)
+  credentials: true,
+  origin: 'http://localhost/3000' // Mengatur domain yang diizinkan untuk akses API
+}));
 
+app.use(express.json()); // Middleware agar bisa menerima data dalam bentuk JSON
 
- try {
-    await db.authenticate();
-    console.log("Database Connected");
-    await User.sync()
- } catch (error) {
-    console.error(error);
- }
+app.use(authRoute); // Menggunakan middleware route untuk rute otentikasi
 
- app.listen(5000, () => console.log('server running port 5000'));
+try {
+  await db.authenticate(); // Menghubungkan ke database
+  console.log("Database Connected");
+  await User.sync(); // Sinkronisasi model User dengan tabel di database
+} catch (error) {
+  console.error(error);
+}
+
+app.listen(5000, () => console.log('Server running on port 5000')); // Menjalankan server pada port 5000
