@@ -36,20 +36,28 @@ export const Login = async(req, res) => {
     }
 }
 
-export const Register = async(req, res) => {
-    const {name, email, password, confirmPassword} = req.body;
-    if(password !== confirmPassword) return res.status(400).json({msg: "Password tidak sama"});
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(password, salt);
+export const Register = async (req, res) => {
+    const { name, email, password, confirmPassword } = req.body;
+    console.log(req.body);
+    if (password !== confirmPassword) {
+        return res.status(400).json({ msg: "Password tidak sama" });
+    }
+
     try {
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hashPassword = await bcrypt.hash(password, salt);
+
         await User.create({
             name: name,
             email: email,
             password: hashPassword
         });
-        res.json({msg: "Register berhasil"})
+
+        res.json({ msg: "Pendaftaran berhasil" });
     } catch (error) {
         console.log(error);
+        res.status(500).json({ msg: "Kesalahan server internal" });
     }
 }
 
