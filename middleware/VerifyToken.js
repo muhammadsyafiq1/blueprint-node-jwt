@@ -8,14 +8,6 @@ export const verifyToken = (req, res, next) => {
 
     const { email } = decoded;
 
-    // Dapatkan nilai role_id dari objek req
-    const { role_id } = req;
-
-    // Lakukan verifikasi berdasarkan role_id
-    if (role_id !== 1) {
-      return res.sendStatus(403);
-    }
-
     req.email = email;
     next();
   });
