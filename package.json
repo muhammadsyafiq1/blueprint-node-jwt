@@ -9,6 +9,7 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.3.3",
+    "nodemon": "^3.0.1",
     "sequelize": "^6.28.0"
   },
   "name": "jwt",
@@ -16,7 +17,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",

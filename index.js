@@ -1,10 +1,12 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/authRoutes.js";
-import productRoutes from "./routes/productRoutes.js"
+import productRoutes from "./routes/productRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 import db from "./config/Database.js";
 import User from "./models/UserModel.js";
 import Product from "./models/ProductModel.js";
+import Category from "./models/CategoryModel.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import FileUpload from "express-fileupload"
@@ -24,12 +26,14 @@ app.use(FileUpload())
 
 app.use(authRoute);
 app.use(productRoutes);
+app.use(categoryRoutes);
 
 try {
   await db.authenticate(); // Menghubungkan ke database
   console.log("Database Connected");
   // await User.sync(); 
   // await Product.sync(); 
+  // await Category.sync(); 
 } catch (error) {
   console.error(error);
 }
