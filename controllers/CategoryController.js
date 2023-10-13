@@ -1,3 +1,4 @@
+import db from "../config/Database.js"
 import Category from "../models/CategoryModel.js"
 
 export const getCategory = async (req , res) => {
@@ -10,14 +11,25 @@ export const getCategory = async (req , res) => {
 }
 
 export const createCategory = async (req, res) => {
+    const t = await db.transaction();
     try {
         const name = req.body.name;
+
+        // Buat entitas kategori di dalam transaksi
         await Category.create({
             name: name
-        });
-        res.status(201).json({msg: "category has been created"})
+        }, { transaction: t });
+
+        // Commit transaksi jika operasi berhasil
+        await t.commit();
+
+        res.status(201).json({ msg: "Kategori telah berhasil dibuat" });
     } catch (error) {
         console.log(error.message);
+
+        // Rollback transaksi jika terjadi kesalahan
+        await t.rollback();
+        res.status(500).json({ error: "Terjadi kesalahan saat membuat kategori" });
     }
 }
 
